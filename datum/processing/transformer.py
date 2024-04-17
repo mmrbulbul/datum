@@ -20,14 +20,14 @@ class LowDimFeature(BaseEstimator, TransformerMixin):
                              learning_rate='auto',
                              init='random', perplexity=tsne_perplexity)
 
-    def fit(self, X):
+    def fit(self, X, y=None):
         if self.is_umap:
             self.reducer1.fit(X)
         if self.is_tsne:
             self.reducer2.fit(X)
         return self
 
-    def transform(self, X):
+    def transform(self, X, y=None):
         if self.is_umap:
             transform1 = self.reducer1.transform(X)
             df1 = pd.DataFrame(transform1, columns=[
