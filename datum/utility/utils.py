@@ -1,13 +1,16 @@
 """ General utility functions """
+
 import os
+import random
+
 import numpy as np
-import random 
-import torch
 import tensorflow as tf
+import torch
+
 
 def seed_everything(seed,
-    tensorflow_init=True,
-    pytorch_init=True):
+                    tensorflow_init=True,
+                    pytorch_init=True):
     """
     Seeds basic parameters for reproducibility of results
     """
@@ -22,6 +25,7 @@ def seed_everything(seed,
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
 
+
 def reduce_mem_usage(df):
     """ Iterate through all the columns of a dataframe and modify the data type
         to reduce memory usage. 
@@ -33,10 +37,10 @@ def reduce_mem_usage(df):
     """
     start_mem = df.memory_usage().sum() / 1024**2
     print('Memory usage of dataframe is {:.2f} MB'.format(start_mem))
-    
+
     for col in df.columns:
         col_type = df[col].dtype
-        
+
         if col_type != object:
             c_min = df[col].min()
             c_max = df[col].max()
@@ -48,7 +52,7 @@ def reduce_mem_usage(df):
                 elif c_min > np.iinfo(np.int32).min and c_max < np.iinfo(np.int32).max:
                     df[col] = df[col].astype(np.int32)
                 elif c_min > np.iinfo(np.int64).min and c_max < np.iinfo(np.int64).max:
-                    df[col] = df[col].astype(np.int64)  
+                    df[col] = df[col].astype(np.int64)
             else:
                 if c_min > np.finfo(np.float16).min and c_max < np.finfo(np.float16).max:
                     df[col] = df[col].astype(np.float16)
@@ -61,7 +65,7 @@ def reduce_mem_usage(df):
 
     end_mem = df.memory_usage().sum() / 1024**2
     print('Memory usage after optimization is: {:.2f} MB'.format(end_mem))
-    print('Decreased by {:.1f}%'.format(100 * (start_mem - end_mem) / start_mem))
-    
-    return df
+    print('Decreased by {:.1f}%'.format(
+        100 * (start_mem - end_mem) / start_mem))
 
+    return df
