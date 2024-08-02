@@ -10,7 +10,7 @@ with open("requirements/requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="datum",
-    version="0.1.0",
+    version="0.1.0-dev",
     author="Md. Muklasur Rahman Bulbul",
     author_email="mmrbulbul@gmail.com",
     description="Data analysis toolbox",
