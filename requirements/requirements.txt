@@ -2,8 +2,14 @@ numpy
 pandas
 openpyxl
 scikit-learn
-xgboost
 scipy
+umap-learn
+xgboost
+catboost
+lightgbm
+
+torch
+tensorflow
 
 matplotlib
 seaborn
@@ -13,8 +19,6 @@ shap
 optuna
 wandb
 
-torch
-tensorflow
+jupyter
+ipykernel
 
-isort
-autopep8

@@ -12,6 +12,14 @@ class LowDimFeature(BaseEstimator, TransformerMixin):
     def __init__(self, n_components=2,
                  is_umap=True, is_tsne=True,
                  tsne_perplexity=10):
+        """_summary_
+
+        Args:
+            n_components (int, optional): no of componests. Defaults to 2.
+            is_umap (bool, optional): If True use umap for dimentionality reduction. Defaults to True.
+            is_tsne (bool, optional):If True use umap for dimentionality reduction. Defaults to True.
+            tsne_perplexity (int, optional):  Defaults to 10.
+        """
         self.is_umap = is_umap
         self.is_tsne = is_tsne
         self.n_components = n_components
@@ -28,19 +36,16 @@ class LowDimFeature(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X, y=None):
+        df1 = pd.DataFrame()
+        df2 = pd.DataFrame()
         if self.is_umap:
-            transform1 = self.reducer1.transform(X)
-            df1 = pd.DataFrame(transform1, columns=[
+            df1 = self.reducer1.transform(X)
+            df1 = pd.DataFrame(df1, columns=[
                                f"umap{i+1}" for i in range(self.n_components)])
         if self.is_tsne:
-            transform2 = self.reducer2.transform(X)
-            df2 = pd.DataFrame(transform2, columns=[
+            df2 = self.reducer2.transform(X)
+            df2 = pd.DataFrame(df2, columns=[
                                f"tsne{i+1}" for i in range(self.n_components)])
 
-        if self.is_umap and self.is_tsne:
-            df = pd.concat([transform1, transform2], axis=1)
-            return df
-        if self.is_umap:
-            return df1
-        if self.is_tsne:
-            return df2
+        df = pd.concat([df1, df2], axis=1)
+        return df
