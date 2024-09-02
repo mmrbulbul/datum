@@ -1,0 +1,21 @@
+[build-system]
+requires = [ "setuptools>=42", "wheel",]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "datum"
+version = "0.1.0-dev"
+description = "Data analysis toolbox"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [ "Programming Language :: Python :: 3", "License :: OSI Approved :: MIT License", "Operating System :: OS Independent",]
+dependencies = [ "matplotlib", "numpy", "xgboost", "jupyter", "tensorflow", "torch", "openpyxl", "seaborn", "pandas", "lightgbm", "plotly", "optuna", "ipykernel", "shap", "catboost", "umap-learn", "scikit-learn", "wandb", "scipy"]
+[[project.authors]]
+name = "Md. Muklasur Rahman Bulbul"
+email = "mmrbulbul@gmail.com"
+
+[project.license]
+text = "MIT"
+
+[project.urls]
+Homepage = "https://github.com/mmrbulbul/datum"
