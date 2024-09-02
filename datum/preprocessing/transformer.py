@@ -43,7 +43,7 @@ class LowDimFeature(BaseEstimator, TransformerMixin):
             df1 = pd.DataFrame(df1, columns=[
                                f"umap{i+1}" for i in range(self.n_components)])
         if self.is_tsne:
-            df2 = self.reducer2.transform(X)
+            df2 = self.reducer2.fit_transform(X)
             df2 = pd.DataFrame(df2, columns=[
                                f"tsne{i+1}" for i in range(self.n_components)])
 
