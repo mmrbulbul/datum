@@ -11,6 +11,7 @@ def analyze_column(input_series: pd.Series) -> str:
     else:
         return 'categorical'
 
+
 def get_categorical_columns(df: pd.DataFrame) -> list:
     """
     Get the categorical columns
