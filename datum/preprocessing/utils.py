@@ -32,9 +32,10 @@ def subset_by_iqr(df, column, whisker_width=1.5):
        less than Q1-1.5IQR or greater than Q3+1.5IQR.
     """
     # Calculate Q1, Q2 and IQR
-    q1 = df[column].quantile(0.25)                 
+    q1 = df[column].quantile(0.25)
     q3 = df[column].quantile(0.75)
     iqr = q3 - q1
     # Apply filter with respect to IQR, including optional whiskers
-    filter = (df[column] >= q1 - whisker_width*iqr) & (df[column] <= q3 + whisker_width*iqr)
-    return df.loc[filter]                                                     
+    filter = (df[column] >= q1 - whisker_width *
+              iqr) & (df[column] <= q3 + whisker_width*iqr)
+    return df.loc[filter]

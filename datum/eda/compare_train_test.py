@@ -5,7 +5,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import plot_roc_curve, roc_auc_score
+from sklearn.metrics import roc_auc_score
+
+try:
+    from sklearn.metrics import plot_roc_curve
+
+except ImportError:
+    from sklearn.metrics import RocCurveDisplay
 
 
 def check_train_test(train_df, test_df):
@@ -24,7 +30,9 @@ def check_train_test(train_df, test_df):
     pred = model.predict(combined_df)
 
     roc_scores = roc_auc_score(target, pred, average=None)
-
-    plot_roc_curve(model, combined_df, target)
+    try:
+        plot_roc_curve(model, combined_df, target)
+    except:
+        RocCurveDisplay.from_estimator(model, combined_df, target)
     plt.show()
     print(roc_scores, np.mean(roc_scores))
