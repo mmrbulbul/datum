@@ -6,8 +6,11 @@ import seaborn as sns
 from scipy.cluster import hierarchy as hc
 
 
-def get_hierchical_clusters(X):
-    corr = np.round(scipy.stats.spearmanr(X.dropna()).correlation, 4)
+def get_hierchical_clusters(X, drop_na=True):
+    if drop_na:
+        X = X.dropna()
+        
+    corr = np.round(scipy.stats.spearmanr(X).correlation, 4)
     plt.figure(figsize=(16, 10))
     hc.dendrogram(hc.linkage(hc.distance.squareform(1-corr),
                              method='average'),
@@ -82,5 +85,30 @@ def dist_visualization(X_train, X_test, cont_cols):
         for col_pos in range(len(cont_cols) % 3, 3):
             axs[-1][col_pos].remove()
 
+    plt.tight_layout()
+    plt.show()
+    
+    
+def plot_missing_values(df, title, color):
+    missing_ratio = df.isnull().sum() / len(df) * 100
+    missing_df = pd.DataFrame({'column': missing_ratio.index, 'missing_ratio': missing_ratio.values})
+    
+    plt.figure(figsize=(15, 6))
+    plt.grid(True)
+    ax = sns.barplot(x='column', y='missing_ratio', data=missing_df, color=color)
+    
+    plt.xticks(rotation=45, ha='right')
+    plt.title(title)
+    
+    plt.yticks(range(0, 101, 20))
+    plt.ylabel('Missing Values ratio(%)')
+    
+    for p in ax.patches:
+        height = p.get_height()
+        ax.text(p.get_x() + p.get_width() / 2.,
+                height + 0.8,
+                '{:.1f}%'.format(height),
+                ha="center")
+    
     plt.tight_layout()
     plt.show()
