@@ -5,6 +5,7 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from xgboost import XGBClassifier, XGBRegressor
 
+
 def plot_importance(model, feature_names, topk=10):
     # plot feature importance
     if isinstance(model, RandomForestClassifier) or isinstance(model, RandomForestRegressor):
@@ -35,14 +36,16 @@ def plot_importance(model, feature_names, topk=10):
         plt.title('Feature Importance in linear model')
         plt.gca().invert_yaxis()  # Invert y-axis to have the most important feature on top
         plt.show()
-        
+
     elif isinstance(model, XGBClassifier) or isinstance(model, XGBRegressor):
         feature_important = model.get_booster().get_score(importance_type='weight')
         keys = list(feature_important.keys())
         values = list(feature_important.values())
 
-        data = pd.DataFrame(data=values, index=keys, columns=["score"]).sort_values(by = "score", ascending=False)
-        data.nlargest(40, columns="score").plot(kind='barh', figsize = (20,10)) ## plot top 40 features
+        data = pd.DataFrame(data=values, index=keys, columns=[
+                            "score"]).sort_values(by="score", ascending=False)
+        data.nlargest(40, columns="score").plot(
+            kind='barh', figsize=(20, 10))  # plot top 40 features
         # ax.set_title("Feature importances using MDI")
         # ax.set_ylabel("importance")
         # fig.tight_layout()
