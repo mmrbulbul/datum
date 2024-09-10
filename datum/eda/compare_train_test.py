@@ -14,9 +14,13 @@ except ImportError:
     from sklearn.metrics import RocCurveDisplay
 
 
-def check_train_test(train_df, test_df):
+def check_train_test(train_df, test_df, model=None, return_model=False):
     """
     Check whether train and test data comes from same distribution
+    train_df: pandas dataframe without target column
+    test_df: pandas dataframe without target column
+    model: sklearn estimator, default is logistic regression
+    return_model: bool, whether to return the fitted model
     """
     train_y = np.ones(len(train_df))
     test_y = np.zeros(len(test_df))
@@ -24,7 +28,9 @@ def check_train_test(train_df, test_df):
     combined_df = pd.concat([train_df, test_df])
     target = np.concatenate([train_y, test_y]).reshape(-1, 1)
 
-    model = LogisticRegression()
+    if model is None:
+        model = LogisticRegression()
+        
     model.fit(combined_df, target.ravel())
 
     pred = model.predict(combined_df)
@@ -36,3 +42,6 @@ def check_train_test(train_df, test_df):
         RocCurveDisplay.from_estimator(model, combined_df, target)
     plt.show()
     print(roc_scores, np.mean(roc_scores))
+    
+    if return_model:
+        return model
